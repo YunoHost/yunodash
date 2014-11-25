@@ -1,0 +1,22 @@
+
+.login-github a {
+    background-image: url('/img/github.png');
+    background-size: 128px 128px;
+    height: 128px;
+    width: 128px;
+    display: inline-block;
+}
+
+.login-grid a {
+/*
+    border: 1px solid #E5E5E5;
+    padding: 5px;
+    color: #000;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+*/
+/*
+ *    margin-right: 10px;
+ */
+  
+}

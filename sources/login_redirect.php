@@ -5,6 +5,7 @@ require('app.php');
 if (!get('state') || $_SESSION['state'] != get('state'))
 {
   header('Location: logout.php');
+  die();
 }
 
 // Exchange the auth code for a token
@@ -19,7 +20,7 @@ $token = apiRequest($tokenURL, array(
 // Now we are loggued
 $_SESSION['access_token'] = $token->access_token;
 
-header('Location: main.php');
+header('Location: index.php');
 die();
 
 ?>
