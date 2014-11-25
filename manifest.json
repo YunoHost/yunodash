@@ -1,0 +1,33 @@
+{
+    "name": "YunoHost app status",
+    "id": "ynhstatus",
+    "description": {
+        "en": "Example package for Yunohost applications."
+    },
+    "developer": {
+        "name": "John doe",
+        "email": "john.doe@example.com",
+        "url": "http://example.com"
+    },
+    "multi_instance": "false",
+    "arguments": {
+        "install" : [
+            {
+                "name": "domain",
+                "ask": {
+                    "en": "Choose a domain for ynhstatus"
+                },
+                "example": "example.com",
+                "default": "ynh-status.paraiso.me"
+            },
+            {
+                "name": "path",
+                "ask": {
+                    "en": "Choose a path for ynhstatus"
+                },
+                "example": "/",
+                "default": "/"
+            }
+        ]
+    }
+}
