@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<div class="container">
+
 <p>Logged in as {{ user.name }} (<a href="{{ baseurl }}/logout.php">Log out</a>)<p>
 
 <div class="panel-group" id="app-accordion">
@@ -39,6 +41,8 @@
   </div>
 
 {% endfor %}
+
+</div>
 
 </div>
 

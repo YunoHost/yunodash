@@ -26,11 +26,9 @@
   </head>
 
   <body>
-    <div class="container">
     
       {% block content %}
       {% endblock %}
 
-    </div>
   </body>
 </html>
