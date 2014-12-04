@@ -16,14 +16,7 @@ else
 {
   $monitor->loadAppData();
 
-  echo $twig->render("main.tpl",
-    array(
-      "apps" => $monitor->get_apps_info(),
-      "user" => $monitor->get_user(),
-      "baseurl" => $baseURL,
-      "timezone" => date_default_timezone_get()
-      )
-    );
+  echo json_encode($monitor->get_apps_info());
 }
 
 ?>

@@ -2,19 +2,19 @@
 require('app.php');
 
 // Verify the state matches our stored state
-if (!get('state') || $_SESSION['state'] != get('state'))
+if (!$monitor->get('state') || $_SESSION['state'] != $monitor->get('state'))
 {
   header('Location: logout.php');
   die();
 }
 
 // Exchange the auth code for a token
-$token = apiRequest($tokenURL, array(
+$token = $monitor->apiRequest($tokenURL, array(
   'client_id' => OAUTH2_CLIENT_ID,
   'client_secret' => OAUTH2_CLIENT_SECRET,
   //'redirect_uri' => $baseURL . $_SERVER['PHP_SELF'],
   'state' => $_SESSION['state'],
-  'code' => get('code')
+  'code' => $monitor->get('code')
 ));
 
 // Now we are loggued
