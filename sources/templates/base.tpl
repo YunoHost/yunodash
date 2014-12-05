@@ -8,8 +8,7 @@
       <meta name="viewport" content="user-scalable=no, width=device-width, height=device-height" />
       <link rel="shortcut icon" href="/favicon.ico">
       
-      <link rel="stylesheet" type="text/css" href="css/bootstrap-3.1.1.min.css">
-      <link rel="stylesheet" type="text/css" href="css/bootstrap-3.1.1-theme.min.css">
+      <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
       <link rel="stylesheet" type="text/css" href="css/custom.css">
       
       <!-- Always define js console -->
@@ -21,8 +20,8 @@
         }
       </script>
       
-      <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
-      <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+      <script src="bower_components/jquery/jquery.min.js"></script>
+      <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
       
       {% block scripts %}
       {% endblock %}
