@@ -7,7 +7,6 @@ if ( !$monitor->is_loggued() )
 {
   echo $twig->render("index.tpl",
     array(
-      "timezone_set" => $monitor->session('time'),
       "baseurl" => $baseURL
       )
     );
@@ -21,7 +20,6 @@ else
       "apps" => $monitor->get_apps_info(),
       "user" => $monitor->get_user(),
       "baseurl" => $baseURL,
-      "timezone" => date_default_timezone_get()
       )
     );
 }

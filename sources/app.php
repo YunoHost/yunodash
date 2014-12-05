@@ -11,8 +11,6 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem( "./templates" );
 $twig = new Twig_Environment($loader, array());
 
-
-
 class AppInfo
 {
   var $json;
@@ -189,12 +187,6 @@ class YunohostAppMonitor
   
   public function loadAppData()
   {
-
-    if ( $this->session("timezone") )
-    {
-      date_default_timezone_set( $this->session("timezone") );
-    }
-    
     $applist = json_decode(
       file_get_contents( 'https://app.yunohost.org/list.json' )
     );

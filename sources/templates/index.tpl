@@ -1,23 +1,5 @@
 {% extends 'base.tpl' %}
 
-{% block scripts %}
-{% if not timezone_set %}
-<script type="text/javascript">
-    $(document).ready(function() {
-      var timezone = jstz.determine();
-      $.ajax({
-          type: "GET",
-          url: "{{ baseurl }}/timezone.php",
-          data: 'timezone='+ timezone.name(),
-          success: function(){
-              //location.reload();
-          }
-      });
-    });
-</script>
-{% endif %}
-{% endblock %}
-
 {% block content %}
    <table id="page-table" >
    <tr>
