@@ -21,8 +21,10 @@ class AppInfo
   var $trunk_rev;
   var $diff_url;
   var $commits_behind = 0;
+  var $is_mine = False;
+  
 
-  public function __construct($appjson)
+  public function __construct($appjson, $logged_user)
   {
     $this->json = $appjson;
 
@@ -39,6 +41,8 @@ class AppInfo
     }
     $this->github_username = $github_username;
     $this->github_repo = $github_repo;
+    
+    $this->is_mine = ($this->github_username == $logged_user);
   }
   
   public function id()
@@ -102,7 +106,6 @@ class AppInfo
   {
     return $this->json->git->revision;
   }
-  
 }
 
 
@@ -110,11 +113,16 @@ class YunohostAppMonitor
 {
   private $curl_multi = NULL;
   private $app_info_arr = array();
+  private $loggued_user_data = NULL;
 
   public function __construct()
   {
     $this->curl_multi = new Curl_Multi();
-  
+    
+    if ( $this->is_loggued() )
+    {
+      $this->loggued_user_data = $this->load_user_data();
+    }
   }
   
   public function __destruct()
@@ -166,7 +174,7 @@ class YunohostAppMonitor
     return $this->session('access_token') != NULL;
   }
   
-  public function get_user()
+  public function load_user_data()
   {
     $ch = $this->makeApiRequestHandle('https://api.github.com/user');
     $response = curl_exec($ch);
@@ -174,8 +182,14 @@ class YunohostAppMonitor
     return json_decode($response);
   }
   
+  public function get_user()
+  {
+    return $this->loggued_user_data->login;
+  }
+  
   public function loadAppData()
   {
+
     if ( $this->session("timezone") )
     {
       date_default_timezone_set( $this->session("timezone") );
@@ -187,7 +201,7 @@ class YunohostAppMonitor
     
     foreach($applist as $app)
     {
-      $this->app_info_arr[$app->manifest->id] = new AppInfo($app);
+      $this->app_info_arr[$app->manifest->id] = new AppInfo($app, $this->get_user());
      
       $url = $app->git->url;
 
@@ -251,6 +265,16 @@ class YunohostAppMonitor
   public function get_apps_info()
   {
      return $this->app_info_arr;
+  }
+  
+  public function get_apps_array()
+  {
+    $a = array();
+    foreach($this->app_info_arr as $appid => $appinfo)
+    {
+      $a[] = $appinfo;
+    } 
+    return $a;
   }
   
 }

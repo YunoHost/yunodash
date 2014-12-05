@@ -1,0 +1,14 @@
+{
+  "name": "yunodash",
+  "description": "Application Dashboard for YunoHost",
+  "version": "0.0.1",
+  "license": "Apache2",
+  "private": true,
+  "dependencies": {
+    "angular": "1.2.x",
+    "jquery": "1.10.2",
+    "bootstrap": "~3.1.1",
+    "angular-bootstrap": "0.12.x",
+    "silviomoreto/bootstrap-select" : "1.6.x"
+  }
+}

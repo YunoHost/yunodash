@@ -15,8 +15,12 @@ if ( !$monitor->is_loggued() )
 else
 {
   $monitor->loadAppData();
+  
+  header('Cache-Control: no-cache, must-revalidate');
+  header('Expires: Mon, 01 Jan 1996 00:00:00 GMT');
+  header('Content-type: application/json');
 
-  echo json_encode($monitor->get_apps_info());
+  echo json_encode($monitor->get_apps_array());
 }
 
 ?>
