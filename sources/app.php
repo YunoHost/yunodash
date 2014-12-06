@@ -42,68 +42,6 @@ class AppInfo
     
     $this->is_mine = ($this->github_username == $logged_user);
   }
-  
-  public function id()
-  {
-    return $this->json->manifest->id;
-  }
-  
-  public function up_to_date()
-  {
-    return $this->commits_behind == 0;
-  }
-  
-  public function name()
-  {
-    return $this->json->manifest->name;
-  }
-  
-  public function status()
-  {
-    if( $this->up_to_date() )
-    {
-      return "";
-    }
-    else
-    {
-      return $this->commits_behind . " commits behind";
-    }
-  }
-  
-  public function desc()
-  {
-    return $this->json->manifest->description->en;
-  }
-  
-  public function last_update()
-  {
-    return date(DATE_COOKIE, $this->json->lastUpdate);
-  }
-  
-  public function maintainer()
-  {
-    return $this->json->manifest->developer->name;
-  }
-  
-  public function maintainer_mail()
-  {
-    return $this->json->manifest->developer->email;
-  }
-  
-  public function git()
-  {
-    return $this->json->git->url;
-  }
-
-  public function branch()
-  {
-    return $this->json->git->branch;
-  }
-
-  public function published_rev()
-  {
-    return $this->json->git->revision;
-  }
 }
 
 
