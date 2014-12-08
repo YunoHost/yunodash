@@ -181,6 +181,7 @@ class YunohostAppMonitor
       if ( preg_match("/https:\/\/github.com\/(.+)\/(.+)/", $app->git->url, $matches) != 1 )
       {
         // TODO handle error
+        continue;
       }
       
       $github_username = $matches[1];

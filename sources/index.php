@@ -5,7 +5,7 @@ require('app.php');
 if ( !$monitor->is_loggued() )
 {
 ?>
-   
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,23 +17,12 @@ if ( !$monitor->is_loggued() )
     <link rel="icon" href="img/favicon.ico">
     
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/custom.css">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
     
-    <!-- Always define js console -->
-    <script type="text/javascript">
-      if (typeof console === "undefined" || typeof console.log === "undefined")
-      {
-        console = {};
-        console.log = function () {};
-      }
-    </script>
-<!--
-    <script src="bower_components/jquery/jquery.min.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
--->
   </head>
 
   <body>
+
     <table id="page-table" >
       <tr>
         <td id="page-td">
@@ -43,6 +32,7 @@ if ( !$monitor->is_loggued() )
         </td>
       </tr>
     </table>
+
   </body>
 </html>
     
@@ -61,18 +51,11 @@ else
   <link rel="icon" href="img/favicon.ico">
   
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-<!--  <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.min.css">-->
-  
   <link rel="stylesheet" href="css/app.css">
   
-<!--  <script src="bower_components/jquery/jquery.min.js"></script>
-  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>-->
   <script src="bower_components/angular/angular.min.js"></script>
   <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-  
   <script src="js/app.js"></script>
-  
 </head>
 <body ng-controller="YnhAppDashboardCtrl">
 
@@ -81,12 +64,12 @@ else
     <ul class="nav navbar-nav">
       <li>
         <form class="navbar-form">
-          <button class="btn {{ onlymyapps | myappbtn }}" ng-click="onlymyapps = !onlymyapps">Show only my apps</button>
+          <button class="btn {{ onlymyapps | myappbtn }}" ng-click="onlymyapps = !onlymyapps">My apps</button>
         </form>
       </li>
       <li>
         <form class="navbar-form">
-          <button class="btn {{ onlylateapps | lateapp_button_style }}" ng-click="onlylateapps = !onlylateapps">Show only late apps</button>
+          <button class="btn {{ onlylateapps | lateapp_button_style }}" ng-click="onlylateapps = !onlylateapps">Late apps</button>
         </form>
       </li>
       <li>
@@ -112,7 +95,7 @@ else
   </nav>
   <div class="container">
     <div ng-if="dataLoading">
-        <img class="img-responsive center-block" src="img/loading.gif"></img>
+      <img class="img-responsive center-block" src="img/loading.gif"></img>
     </div>
     
     <accordion close-others="oneAtATime">
@@ -124,7 +107,7 @@ else
             {{ app | status }}
           </div>
         </accordion-heading>
-        <table class="table">
+        <table class="table table-condensed">
             <tr>
               <td style="width:20%"><strong>Description</strong></td>
               <td>{{ app.json.manifest.description.en }}</td>
@@ -154,7 +137,9 @@ else
         <div ng-if="app.pull_requests">
           <br>
           <div class="panel panel-default">
-            <div class="panel-heading">Pull requests</div>
+            <div class="panel-heading">
+              <a href="{{ app.json.git.url }}/pulls" target="_blank">Open Pull Requests</a>
+            </div>
             <table class="table table-condensed table-hover">
                 <tr ng-repeat="pr in app.pull_requests">
                   <td style="width:5%;text-align:center"><img width=20 height=20 ng-src="{{ pr.reporter.avatar_url }}&s=40" alt="{{ pr.reporter.login }}"></img></td>
@@ -168,7 +153,9 @@ else
         <div ng-if="app.issues">
           <br>
           <div class="panel panel-default">
-            <div class="panel-heading">Issues</div>
+            <div class="panel-heading">
+              <a href="{{ app.json.git.url }}/issues" target="_blank">Open Issues</a>
+            </div>
             <table class="table table-condensed table-hover">
                 <tr ng-repeat="issue in app.issues">
                   <td style="width:5%;text-align:center"><img width=20 height=20 ng-src="{{ issue.reporter.avatar_url }}&s=40" alt="{{ issue.reporter.login }}"></img></td>

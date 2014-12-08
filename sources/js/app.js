@@ -1,7 +1,6 @@
 'use strict';
 
 var appDashboard = angular.module('appDashboard', ['ui.bootstrap']);
-//var appDashboard = angular.module('appDashboard', ['ui.bootstrap', 'ui.grid', 'ui.grid.autoResize']);
 
 appDashboard
 .controller('YnhAppDashboardCtrl', ['$scope', '$http', function($scope, $http) {
