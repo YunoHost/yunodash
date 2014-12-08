@@ -20,8 +20,9 @@ class AppInfo
   var $diff_url;
   var $commits_behind = 0;
   var $is_mine = False;
+  var $pull_requests = array();
+  var $issues = array();
   
-
   public function __construct($appjson, $logged_user)
   {
     $this->json = $appjson;
@@ -42,6 +43,36 @@ class AppInfo
     
     $this->is_mine = ($this->github_username == $logged_user);
   }
+  
+  public function set_pull_requests($pr_array)
+  {
+    foreach($pr_array as $pr)
+    {
+      $this->pull_requests[] = array(
+        "number" => $pr->number,
+        "html_url" => $pr->html_url,
+        "title" => $pr->title,
+        "created_at" => $pr->created_at
+        );
+    }
+  }
+  
+  public function set_issues($issues_array)
+  {
+    foreach($issues_array as $issue)
+    {
+      if ($issue->pull_request == NULL)
+      {
+        $this->issues[] = array(
+          "number" => $issue->number,
+          "html_url" => $issue->html_url,
+          "title" => $issue->title,
+          "created_at" => $issue->created_at
+          );
+      }
+    }
+  }
+
 }
 
 
@@ -160,6 +191,32 @@ class YunohostAppMonitor
           "app" => $app->manifest->id
           )
         );
+
+      $pull_request_apiurl =
+        str_replace( array("{user}", "{repo}"),
+                     array($github_username, $github_repo),
+                     "https://api.github.com/repos/{user}/{repo}/pulls?state=open" );
+
+      $this->curl_multi->addHandle(
+        $this->makeApiRequestHandle($pull_request_apiurl),
+        array($this, "store_pull_requests"),
+        array(
+          "app" => $app->manifest->id
+          )
+        );
+
+      $issues_request_apiurl =
+        str_replace( array("{user}", "{repo}"),
+                     array($github_username, $github_repo),
+                     "https://api.github.com/repos/{user}/{repo}/issues?open" );
+
+      $this->curl_multi->addHandle(
+        $this->makeApiRequestHandle($issues_request_apiurl),
+        array($this, "store_issues"),
+        array(
+          "app" => $app->manifest->id
+          )
+        );
     }
     $this->curl_multi->finish();
   }
@@ -192,6 +249,18 @@ class YunohostAppMonitor
     $app_info->commits_behind = json_decode($curl_data)->total_commits;
   }
   
+  public function store_pull_requests($curl_info, $curl_data, $callback_data)
+  {
+    $app_info = $this->app_info_arr[ $callback_data["app"] ];
+    $app_info->set_pull_requests(json_decode($curl_data));
+  }
+  
+  public function store_issues($curl_info, $curl_data, $callback_data)
+  {
+    $app_info = $this->app_info_arr[ $callback_data["app"] ];
+    $app_info->set_issues(json_decode($curl_data));
+  }
+
   public function get_apps_info()
   {
      return $this->app_info_arr;
@@ -199,6 +268,8 @@ class YunohostAppMonitor
   
   public function get_apps_array()
   {
+    // turn associative array to regular list
+    
     $a = array();
     foreach($this->app_info_arr as $appid => $appinfo)
     {

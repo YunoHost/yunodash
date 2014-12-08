@@ -62,13 +62,19 @@ else
   
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.min.css">
+  <!--<link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.min.css">-->
+  <link rel="stylesheet" href="bower_components/bootstrap-table/dist/bootstrap-table.min.css">
+  
   <link rel="stylesheet" href="css/app.css">
   
   <script src="bower_components/jquery/jquery.min.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
   <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/bootstrap-table/dist/bootstrap-table.min.js"></script>
   <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <!--<script src="bower_components/angular-ui-grid/ui-grid.min.js"></script>-->
+  
   <script src="js/app.js"></script>
   
 </head>
@@ -112,24 +118,75 @@ else
     <accordion close-others="oneAtATime">
       <accordion-group ng-repeat="app in apps | selectmyapps:onlymyapps | filter:query | orderBy:orderProp" class="{{ app | panelclass}}">
         <accordion-heading>
-          {{app.json.manifest.name}}
+          {{ app.json.manifest.name }}
           <div class="pull-right small">
             {{ app | status }}
           </div>
         </accordion-heading>
+        <table class="table">
+            <tr>
+              <td><strong>Description</strong></td>
+              <td>{{ app.json.manifest.description.en }}</td>
+            </tr>
+            <tr>
+              <td><strong>Last update</strong></td>
+              <td>{{ app.json.lastUpdate + "000" | date:'yyyy-MM-dd HH:mm:ss Z' }}</td>
+            </tr>
+            <tr>
+              <td><strong>Maintainer</strong></td>
+              <td>{{ app.json.manifest.developer.name }} <small class="text-muted">({{ app.json.manifest.developer.email }})</td>
+            </tr>
+            <tr>
+              <td><strong>Git</strong></td>
+              <td><a href="{{ app.json.git.url }}" target="_blank">{{ app.json.git.url }}</a></td>
+            </tr>
+            <tr>
+              <td><strong>Published revision</strong></td>
+              <td>{{ app.json.git.revision }}</td>
+            </tr>
+            <tr>
+              <td><strong>Latest revision</strong></td>
+              <td>{{ app.trunk_rev }}</td>
+            </tr>
+        </table>
         
-        <p><strong>Description</strong>: {{ app.json.manifest.description.en }}</p>
-        <p><strong>Last update</strong>: {{ app.json.lastUpdate + "000" | date:'yyyy-MM-dd HH:mm:ss Z' }}</p>
-        <p><strong>Maintainer</strong>: {{ app.json.manifest.developer.name }} <small class="text-muted">({{ app.json.manifest.developer.email }})</small></p>
-        <p><strong>Git</strong>: <a href="{{ app.json.git.url }}" target="_blank">{{ app.json.git.url }}</a> 
-          <small class="text-muted">({{ app.json.git.branch }})</small>
-        </p>
-        <p><strong>Published revision</strong>: {{ app.json.git.revision }}</p>
-        <p><strong>Latest revision</strong>: {{ app.trunk_rev }}</p>
+        <div ng-if="app.pull_requests">
+          <br>
+          <p><strong>Pull requests</strong>: </p>
+          <!--<div ui-grid="{ data: app.pull_requests }" class="pr-grid"></div>-->
+          <div>
+            <table class="table">
+                <tr ng-repeat="pr in app.pull_requests">
+                  <td><a href="{{ pr.html_url }}" target="_blank">#{{ pr.number }}</a></td>
+                  <td>{{ pr.title }}</td>
+                </tr>
+            </table>
+          </div>
+          <!--
+          <div ng-repeat="pr in app.pull_requests">
+            <p><a href="{{ pr.html_url }}" target="_blank">{{ pr.title }}</a></p>
+          </div>
+          -->
+
+        </div>
+        <div ng-if="app.issues">
+          <br>
+          <p><strong>Issues</strong>: </p>
+          <div>
+            <table class="table">
+                <tr ng-repeat="issue in app.issues">
+                  <td><a href="{{ issue.html_url }}" target="_blank">#{{ issue.number }}</a></td>
+                  <td>{{ issue.title }}</td>
+                </tr>
+            </table>
+          </div>
+        </div>
         <div ng-if="app | not_uptodate">
+          <br>
           <a href="{{ app.diff_url }}" target="_blank" class="btn btn-default">View diff</a>
           <a href="{{ app | validate_url }}" target="_blank" class="btn btn-default">Validate</a>
         </div>
+        
       </accordion-group>
     </accordion>
   </div>

@@ -8,6 +8,11 @@ body {
   cursor: pointer;
 }
 
-.myapp a {
+.myapp .panel-title a {
   font-weight:bold;
+}
+
+.pr-grid {
+  width: 500px;
+  height: 200px;
 }
