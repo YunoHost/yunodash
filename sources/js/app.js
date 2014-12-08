@@ -16,6 +16,7 @@ appDashboard
 
   $scope.orderProp = 'json.manifest.name';
   $scope.onlymyapps = false;
+  $scope.onlylateapps = false;
   
   
 }])
@@ -51,7 +52,17 @@ appDashboard
 })
 .filter('selectmyapps', function() {
   return function(items, onlymyapps) {
-    return onlymyapps ? items.filter( function(item) { return item.is_mine }) : items;
+    return onlymyapps ? items.filter( function(item) { return item.is_mine } ) : items;
+  }
+})
+.filter('lateapp_button_style', function() {
+  return function(val) {
+    return val ? "btn-success" : "btn-default";
+  }
+})
+.filter('selectlateapps', function() {
+  return function(items, onlylateapps) {
+    return onlylateapps ? items.filter( function(item) { return item.commits_behind > 0 } ) : items;
   }
 })
 .filter('not_uptodate', function() {

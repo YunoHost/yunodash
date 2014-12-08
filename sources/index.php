@@ -86,6 +86,11 @@ else
       </li>
       <li>
         <form class="navbar-form">
+          <button class="btn {{ onlylateapps | lateapp_button_style }}" ng-click="onlylateapps = !onlylateapps">Show only late apps</button>
+        </form>
+      </li>
+      <li>
+        <form class="navbar-form">
           <label>Sort by :</label>
           <select ng-model="orderProp" class="form-control">
             <option value="json.manifest.name">Application Name</option>
@@ -111,7 +116,7 @@ else
     </div>
     
     <accordion close-others="oneAtATime">
-      <accordion-group ng-repeat="app in apps | selectmyapps:onlymyapps | filter:query | orderBy:orderProp" class="{{ app | panelclass}}">
+      <accordion-group ng-repeat="app in apps | selectmyapps:onlymyapps | selectlateapps:onlylateapps | filter:query | orderBy:orderProp" class="{{ app | panelclass}}">
         <accordion-heading>
           <img width=30 height=30 ng-src="{{ app.maintainer.avatar_url }}&s=40"></img>
           {{ app.json.manifest.name }}
