@@ -69,7 +69,7 @@ else
       </li>
       <li>
         <form class="navbar-form">
-          <button class="btn {{ onlylateapps | lateapp_button_style }}" ng-click="onlylateapps = !onlylateapps">Late apps</button>
+          <button class="btn {{ onlylateapps | lateapp_button_style }}" ng-click="onlylateapps = !onlylateapps">Outdated apps</button>
         </form>
       </li>
       <li>
