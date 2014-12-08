@@ -15,6 +15,7 @@ class AppInfo
 {
   var $json;
   var $github_username;
+  var $maintainer;
   var $github_repo;
   var $trunk_rev;
   var $diff_url;
@@ -52,7 +53,11 @@ class AppInfo
         "number" => $pr->number,
         "html_url" => $pr->html_url,
         "title" => $pr->title,
-        "created_at" => $pr->created_at
+        "created_at" => $pr->created_at,
+        "reporter" => array(
+          "login" => $pr->user->login,
+          "avatar_url" => $pr->user->avatar_url
+          )
         );
     }
   }
@@ -67,10 +72,22 @@ class AppInfo
           "number" => $issue->number,
           "html_url" => $issue->html_url,
           "title" => $issue->title,
-          "created_at" => $issue->created_at
+          "created_at" => $issue->created_at,
+          "reporter" => array(
+            "login" => $issue->user->login,
+            "avatar_url" => $issue->user->avatar_url
+            )
           );
       }
     }
+  }
+
+  public function set_maintainer($maintainer_array)
+  {
+    $this->maintainer = array(
+      "login" => $maintainer_array->login,
+      "avatar_url" => $maintainer_array->avatar_url
+      );
   }
 
 }
@@ -217,6 +234,20 @@ class YunohostAppMonitor
           "app" => $app->manifest->id
           )
         );
+      
+      $maintainer_apiurl =
+        str_replace( array("{user}"),
+                     array($github_username),
+                     "https://api.github.com/users/{user}" );
+
+      $this->curl_multi->addHandle(
+        $this->makeApiRequestHandle($maintainer_apiurl),
+        array($this, "store_maintainer"),
+        array(
+          "app" => $app->manifest->id
+          )
+        );
+
     }
     $this->curl_multi->finish();
   }
@@ -259,6 +290,12 @@ class YunohostAppMonitor
   {
     $app_info = $this->app_info_arr[ $callback_data["app"] ];
     $app_info->set_issues(json_decode($curl_data));
+  }
+
+  public function store_maintainer($curl_info, $curl_data, $callback_data)
+  {
+    $app_info = $this->app_info_arr[ $callback_data["app"] ];
+    $app_info->set_maintainer(json_decode($curl_data));
   }
 
   public function get_apps_info()

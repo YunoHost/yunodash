@@ -113,6 +113,7 @@ else
     <accordion close-others="oneAtATime">
       <accordion-group ng-repeat="app in apps | selectmyapps:onlymyapps | filter:query | orderBy:orderProp" class="{{ app | panelclass}}">
         <accordion-heading>
+          <img width=30 height=30 ng-src="{{ app.maintainer.avatar_url }}&s=40"></img>
           {{ app.json.manifest.name }}
           <div class="pull-right small">
             {{ app | status }}
@@ -147,28 +148,32 @@ else
         
         <div ng-if="app.pull_requests">
           <br>
-          <p><strong>Pull requests</strong>: </p>
-          <div>
+          <div class="panel panel-default">
+            <div class="panel-heading">Pull requests</div>
             <table class="table table-condensed table-hover">
                 <tr ng-repeat="pr in app.pull_requests">
+                  <td style="width:5%;text-align:center"><img width=20 height=20 ng-src="{{ pr.reporter.avatar_url }}&s=40" alt="{{ pr.reporter.login }}"></img></td>
                   <td style="width:5%"><a href="{{ pr.html_url }}" target="_blank">#{{ pr.number }}</a></td>
                   <td>{{ pr.title }}</td>
                 </tr>
             </table>
           </div>
         </div>
+        
         <div ng-if="app.issues">
           <br>
-          <p><strong>Issues</strong>: </p>
-          <div>
+          <div class="panel panel-default">
+            <div class="panel-heading">Issues</div>
             <table class="table table-condensed table-hover">
                 <tr ng-repeat="issue in app.issues">
+                  <td style="width:5%;text-align:center"><img width=20 height=20 ng-src="{{ issue.reporter.avatar_url }}&s=40" alt="{{ issue.reporter.login }}"></img></td>
                   <td style="width:5%"><a href="{{ issue.html_url }}" target="_blank">#{{ issue.number }}</a></td>
                   <td>{{ issue.title }}</td>
                 </tr>
             </table>
           </div>
         </div>
+        
         <div ng-if="app | not_uptodate">
           <br>
           <a href="{{ app.diff_url }}" target="_blank" class="btn btn-default">View diff</a>
