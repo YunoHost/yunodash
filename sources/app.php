@@ -6,11 +6,6 @@ require "php-curl-multi/Curl/Multi.php";
 ini_set("session.use_cookies",1);
 session_start();
 
-require('Twig/lib/Twig/Autoloader.php');
-Twig_Autoloader::register();
-$loader = new Twig_Loader_Filesystem( "./templates" );
-$twig = new Twig_Environment($loader, array());
-
 class AppInfo
 {
   var $json;
