@@ -31,15 +31,15 @@ appDashboard
     
     if (app.pull_requests.length > 0)
     {
-      status_array[status_array.length] = app.pull_requests.length + " pull requests";
+      status_array[status_array.length] = app.pull_requests.length + " pull request" + (app.pull_requests.length > 1 ? "s" : "");
     }
     if (app.issues.length > 0)
     {
-      status_array[status_array.length] = app.issues.length + " issues";
+      status_array[status_array.length] = app.issues.length + " issue" + (app.issues.length > 1 ? "s" : "");
     }
     if (app.commits_behind > 0)
     {
-      status_array[status_array.length] = app.commits_behind + " commits behind";
+      status_array[status_array.length] = app.commits_behind + " commit" + (app.commits_behind > 1 ? "s" : "") + " behind";
     }
     return status_array.join(", ");
   }
