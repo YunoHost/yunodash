@@ -23,7 +23,7 @@ if ( !$monitor->is_loggued() )
 
   <body>
 
-    <table id="page-table" >
+    <table id="page-table">
       <tr>
         <td id="page-td">
           <div class="login-github">
