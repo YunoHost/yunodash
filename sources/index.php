@@ -61,19 +61,15 @@ else
   <link rel="icon" href="img/favicon.ico">
   
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.min.css">
-  <!--<link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.min.css">-->
-  <link rel="stylesheet" href="bower_components/bootstrap-table/dist/bootstrap-table.min.css">
+<!--  <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.min.css">-->
   
   <link rel="stylesheet" href="css/app.css">
   
-  <script src="bower_components/jquery/jquery.min.js"></script>
+<!--  <script src="bower_components/jquery/jquery.min.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+  <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>-->
   <script src="bower_components/angular/angular.min.js"></script>
-  <script src="bower_components/bootstrap-table/dist/bootstrap-table.min.js"></script>
   <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-  <!--<script src="bower_components/angular-ui-grid/ui-grid.min.js"></script>-->
   
   <script src="js/app.js"></script>
   
@@ -84,14 +80,14 @@ else
   <div class="container-fluid">
     <ul class="nav navbar-nav">
       <li>
-        <form class="navbar-form navbar-left">
+        <form class="navbar-form">
           <button class="btn {{ onlymyapps | myappbtn }}" ng-click="onlymyapps = !onlymyapps">Show only my apps</button>
         </form>
       </li>
       <li>
-        <form class="navbar-form navbar-left">
+        <form class="navbar-form">
           <label>Sort by :</label>
-          <select ng-model="orderProp" class="selectpicker">
+          <select ng-model="orderProp" class="form-control">
             <option value="json.manifest.name">Application Name</option>
             <option value="json.manifest.developer.name">Maintainer</option>
             <option value="json.lastUpdate">Last updated</option>
@@ -99,14 +95,13 @@ else
         </form>
       </li>
     </ul>
-    <ul>
+    <ul class="nav navbar-nav navbar-right">
       <li>
-        <form class="navbar-form navbar-right" role="search">
+        <form class="navbar-form" role="search">
           <input ng-model="query" class="form-control" placeholder="Search...">
           <a class="btn btn-default" title="Log out" href="logout.php"><span class="glyphicon glyphicon-off"></span></a>
         </form>
       </li>
-
     </ul>
   </div>
   </nav>
@@ -125,7 +120,7 @@ else
         </accordion-heading>
         <table class="table">
             <tr>
-              <td><strong>Description</strong></td>
+              <td style="width:20%"><strong>Description</strong></td>
               <td>{{ app.json.manifest.description.en }}</td>
             </tr>
             <tr>
@@ -153,29 +148,22 @@ else
         <div ng-if="app.pull_requests">
           <br>
           <p><strong>Pull requests</strong>: </p>
-          <!--<div ui-grid="{ data: app.pull_requests }" class="pr-grid"></div>-->
           <div>
-            <table class="table">
+            <table class="table table-condensed table-hover">
                 <tr ng-repeat="pr in app.pull_requests">
-                  <td><a href="{{ pr.html_url }}" target="_blank">#{{ pr.number }}</a></td>
+                  <td style="width:5%"><a href="{{ pr.html_url }}" target="_blank">#{{ pr.number }}</a></td>
                   <td>{{ pr.title }}</td>
                 </tr>
             </table>
           </div>
-          <!--
-          <div ng-repeat="pr in app.pull_requests">
-            <p><a href="{{ pr.html_url }}" target="_blank">{{ pr.title }}</a></p>
-          </div>
-          -->
-
         </div>
         <div ng-if="app.issues">
           <br>
           <p><strong>Issues</strong>: </p>
           <div>
-            <table class="table">
+            <table class="table table-condensed table-hover">
                 <tr ng-repeat="issue in app.issues">
-                  <td><a href="{{ issue.html_url }}" target="_blank">#{{ issue.number }}</a></td>
+                  <td style="width:5%"><a href="{{ issue.html_url }}" target="_blank">#{{ issue.number }}</a></td>
                   <td>{{ issue.title }}</td>
                 </tr>
             </table>
@@ -190,11 +178,6 @@ else
       </accordion-group>
     </accordion>
   </div>
-  <script>
-    $( document ).ready(function() {
-      $('.selectpicker').selectpicker();
-    });
-  </script>
 </body>
 </html>
     

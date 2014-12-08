@@ -27,7 +27,21 @@ appDashboard
 })
 .filter('status', function() {
   return function(app) {
-    return (app.commits_behind == 0 ? "" : app.commits_behind + " commits behind");
+    var status_array = new Array();
+    
+    if (app.pull_requests.length > 0)
+    {
+      status_array[status_array.length] = app.pull_requests.length + " pull requests";
+    }
+    if (app.issues.length > 0)
+    {
+      status_array[status_array.length] = app.issues.length + " issues";
+    }
+    if (app.commits_behind > 0)
+    {
+      status_array[status_array.length] = app.commits_behind + " commits behind";
+    }
+    return status_array.join(", ");
   }
 })
 .filter('myappbtn', function() {
