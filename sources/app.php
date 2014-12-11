@@ -1,6 +1,7 @@
 <?php
 
 require "config.php";
+require "config-secret.php";
 require "php-curl-multi/Curl/Multi.php";
 
 ini_set("session.use_cookies",1);
