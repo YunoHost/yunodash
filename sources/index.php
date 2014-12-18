@@ -177,7 +177,7 @@ else
                 <table class="table table-condensed table-hover">
                     <tr ng-repeat="test in app.tests.child">
                       <td style="width:10%;text-align:right"><i class="glyphicon {{ test | test_glyph_class }}" style="{{ test | test_glyph_style }}"></i></td>
-                      <td>{{ test.name }}</td>
+                      <td><a href="{{ app | single_test_url:test }}" target="_blank">{{ test.name }}</a></td>
                       <td style="width:20%;text-align:right">{{ test.duration | number:2 }} sec</td>
                     </tr>
                 </table>
@@ -194,7 +194,7 @@ else
                      <td><a href="{{ testoutput | test_output_url:app }}" target="_blank">{{ testoutput.desc }}</a></td>
                   </tr>
                 </table>
-              </div>          
+              </div>
             </div>
           </div>
         </div>

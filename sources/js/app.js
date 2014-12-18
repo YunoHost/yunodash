@@ -93,6 +93,11 @@ appDashboard
     return "https://moonlight.nohost.me/jenkins/job/yunotest/lastBuild/testReport/apps_tests/"+app.json.manifest.id;
   }
 })
+.filter('single_test_url', function() {
+  return function(app, test) {
+    return "https://moonlight.nohost.me/jenkins/job/yunotest/lastBuild/testReport/apps_tests/"+app.json.manifest.id+"/"+test.name;
+  }
+})
 .filter('test_glyph_class', function() {
   return function(test) {
     if (test.status == 'PASSED' || test.status == 'FIXED') {
