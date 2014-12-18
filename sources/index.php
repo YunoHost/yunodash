@@ -168,32 +168,34 @@ else
         
         <div ng-if="app.tests">
           <br>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <a href="{{ app | tests_url }}" target="_blank">Last tests results</a>
+          <div class="row">
+            <div class="col-xs-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <a href="{{ app | tests_url }}" target="_blank">Last tests results</a>
+                </div>
+                <table class="table table-condensed table-hover">
+                    <tr ng-repeat="test in app.tests.child">
+                      <td style="width:10%;text-align:right"><i class="glyphicon {{ test | test_glyph_class }}" style="{{ test | test_glyph_style }}"></i></td>
+                      <td>{{ test.name }}</td>
+                      <td style="width:20%;text-align:right">{{ test.duration | number:2 }} sec</td>
+                    </tr>
+                </table>
+              </div>
             </div>
-            <table class="table table-condensed table-hover">
-                <tr ng-repeat="test in app.tests.child">
-                  <td style="width:5%;text-align:right"><i class="glyphicon {{ test | test_glyph_class }}" style="{{ test | test_glyph_style }}"></i></td>
-                  <td>{{ test.name }}</td>
-                  <td style="width:10%;text-align:right">{{ test.duration | number:2 }} sec</td>
-                </tr>
-            </table>
-          </div>
-
-          <br>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <a href="{{ app | tests_url }}" target="_blank">Last tests output</a>
+            <div class="col-xs-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <a href="{{ app | tests_url }}" target="_blank">Last tests output</a>
+                </div>
+                <table class="table table-condensed table-hover">
+                  <tr ng-repeat="testoutput in testsOutput">
+                     <td style="width:10%;text-align:right"><i class="glyphicon glyphicon-file"></i></td>
+                     <td><a href="{{ testoutput | test_output_url:app }}" target="_blank">{{ testoutput.desc }}</a></td>
+                  </tr>
+                </table>
+              </div>          
             </div>
-            <table class="table table-condensed table-hover">
-              <tr>
-                 <td><a href="{{ app | test_install_log_url }}" target="_blank">install log</a></td>
-              </tr>
-              <tr>
-                 <td><a href="{{ app | test_remove_log_url }}" target="_blank">remove log</a></td>
-              </tr>
-            </table>
           </div>
         </div>
         

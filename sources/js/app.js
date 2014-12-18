@@ -17,6 +17,12 @@ appDashboard
   $scope.onlymyapps = false;
   $scope.onlylateapps = false;
   
+  $scope.testsOutput = [
+    { "file" : "install.txt",
+      "desc" : "install log" },
+    { "file" : "remove.txt",
+      "desc" : "remove log" }
+  ];
   
 }])
 .filter('panelclass', function() {
@@ -107,14 +113,9 @@ appDashboard
     }
   }
 })
-.filter('test_install_log_url', function() {
-  return function(app) {
-    return "https://moonlight.nohost.me/jenkins/job/yunotest/lastBuild/testReport/apps_tests/"+app.json.manifest.id+"/attachments/install.txt";
-  }
-})
-.filter('test_remove_log_url', function() {
-  return function(app) {
-    return "https://moonlight.nohost.me/jenkins/job/yunotest/lastBuild/testReport/apps_tests/"+app.json.manifest.id+"/attachments/remove.txt";
+.filter('test_output_url', function() {
+  return function(test, app) {
+    return "https://moonlight.nohost.me/jenkins/job/yunotest/lastBuild/testReport/apps_tests/"+app.json.manifest.id+"/attachments/" + test.file;
   }
 })
 ;
