@@ -126,11 +126,11 @@ else
             </tr>
             <tr>
               <td><strong>Published revision</strong></td>
-              <td>{{ app.json.git.revision }}</td>
+              <td><a href="{{ app | revision_url:app.json.git.revision }}" target="_blank">{{ app.json.git.revision }}</a></td>
             </tr>
             <tr>
               <td><strong>Latest revision</strong></td>
-              <td>{{ app.trunk_rev }}</td>
+              <td><a href="{{ app | revision_url:app.trunk_rev }}" target="_blank">{{ app.trunk_rev }}</a></td>
             </tr>
         </table>
         
@@ -162,6 +162,37 @@ else
                   <td style="width:5%"><a href="{{ issue.html_url }}" target="_blank">#{{ issue.number }}</a></td>
                   <td>{{ issue.title }}</td>
                 </tr>
+            </table>
+          </div>
+        </div>
+        
+        <div ng-if="app.tests">
+          <br>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <a href="{{ app | tests_url }}" target="_blank">Last tests results</a>
+            </div>
+            <table class="table table-condensed table-hover">
+                <tr ng-repeat="test in app.tests.child">
+                  <td style="width:5%;text-align:right"><i class="glyphicon {{ test | test_glyph_class }}" style="{{ test | test_glyph_style }}"></i></td>
+                  <td>{{ test.name }}</td>
+                  <td style="width:10%;text-align:right">{{ test.duration | number:2 }} sec</td>
+                </tr>
+            </table>
+          </div>
+
+          <br>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <a href="{{ app | tests_url }}" target="_blank">Last tests output</a>
+            </div>
+            <table class="table table-condensed table-hover">
+              <tr>
+                 <td><a href="{{ app | test_install_log_url }}" target="_blank">install log</a></td>
+              </tr>
+              <tr>
+                 <td><a href="{{ app | test_remove_log_url }}" target="_blank">remove log</a></td>
+              </tr>
             </table>
           </div>
         </div>

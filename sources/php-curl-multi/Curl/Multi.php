@@ -173,7 +173,6 @@ class Curl_Multi
 					if ($info && isset($info['handle']) && isset($this->_curls[(int)$info['handle']]))
 					{
 						$callback_info = $this->_curls[(int)$info['handle']];
-
 						$curl_data = curl_multi_getcontent($info['handle']);
 						$curl_info = curl_getinfo($info['handle']);
 

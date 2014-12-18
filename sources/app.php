@@ -19,6 +19,7 @@ class AppInfo
   var $is_mine = False;
   var $pull_requests = array();
   var $issues = array();
+  var $tests = array();
   
   public function __construct($appjson, $logged_user)
   {
@@ -62,7 +63,7 @@ class AppInfo
   {
     foreach($issues_array as $issue)
     {
-      if ($issue->pull_request == NULL)
+      if ( !property_exists($issue, 'pull_request') )
       {
         $this->issues[] = array(
           "number" => $issue->number,
@@ -84,6 +85,11 @@ class AppInfo
       "login" => $maintainer_array->login,
       "avatar_url" => $maintainer_array->avatar_url
       );
+  }
+
+  public function set_tests($tests_array)
+  {
+    $this->tests = $tests_array;
   }
 
 }
@@ -135,7 +141,18 @@ class YunohostAppMonitor
     if ($this->session('access_token'))
       $headers[] = 'Authorization: Bearer ' . $this->session('access_token');
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    
+    return $ch;
+  }
+
+  public function makeJenkinsRequestHandle($url)
+  {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    $headers[] = 'Accept: application/json';
+    $headers[] = 'User-Agent: Yunohost App Status';
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     return $ch;
   }
 
@@ -245,6 +262,18 @@ class YunohostAppMonitor
           )
         );
 
+      $tests_url =
+        str_replace( array("{appid}"),
+                     array($app->manifest->id),
+                     "https://moonlight.nohost.me/jenkins/job/yunotest/lastBuild/testReport/apps_tests/{appid}/api/json" );
+
+      $this->curl_multi->addHandle(
+        $this->makeJenkinsRequestHandle($tests_url),
+        array($this, "store_tests"),
+        array(
+          "app" => $app->manifest->id
+          )
+        );
     }
     $this->curl_multi->finish();
   }
@@ -293,6 +322,17 @@ class YunohostAppMonitor
   {
     $app_info = $this->app_info_arr[ $callback_data["app"] ];
     $app_info->set_maintainer(json_decode($curl_data));
+  }
+
+  public function store_tests($curl_info, $curl_data, $callback_data)
+  {
+/*
+    error_log(print_r($curl_info, True));
+    error_log(print_r($curl_data, True));
+    error_log(print_r($callback_data, True));
+*/
+    $app_info = $this->app_info_arr[ $callback_data["app"] ];
+    $app_info->set_tests(json_decode($curl_data));
   }
 
   public function get_apps_info()

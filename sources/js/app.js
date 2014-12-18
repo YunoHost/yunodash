@@ -74,4 +74,47 @@ appDashboard
     return "https://app.yunohost.org/validate.php?url="+app.json.git.url+"&branch="+app.json.git.branch+"&rev="+app.trunk_rev+"&email="+app.json.manifest.developer.email;
   }
 })
+.filter('revision_url', function() {
+  return function(app, revision) {
+    return "https://github.com/{owner}/{repo}/tree/{revision}"
+       .replace("{owner}", app.github_username)
+       .replace("{repo}", app.github_repo)
+       .replace("{revision}", revision);
+  }
+})
+.filter('tests_url', function() {
+  return function(app) {
+    return "https://moonlight.nohost.me/jenkins/job/yunotest/lastBuild/testReport/apps_tests/"+app.json.manifest.id;
+  }
+})
+.filter('test_glyph_class', function() {
+  return function(test) {
+    if (test.status == 'PASSED' || test.status == 'FIXED') {
+      return 'glyphicon-ok';
+    }
+    else {
+      return 'glyphicon-remove';
+    }
+  }
+})
+.filter('test_glyph_style', function() {
+  return function(test) {
+    if (test.status == 'PASSED' || test.status == 'FIXED') {
+      return 'color:green';
+    }
+    else {
+      return 'color:red';
+    }
+  }
+})
+.filter('test_install_log_url', function() {
+  return function(app) {
+    return "https://moonlight.nohost.me/jenkins/job/yunotest/lastBuild/testReport/apps_tests/"+app.json.manifest.id+"/attachments/install.txt";
+  }
+})
+.filter('test_remove_log_url', function() {
+  return function(app) {
+    return "https://moonlight.nohost.me/jenkins/job/yunotest/lastBuild/testReport/apps_tests/"+app.json.manifest.id+"/attachments/remove.txt";
+  }
+})
 ;
