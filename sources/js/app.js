@@ -21,7 +21,9 @@ appDashboard
     { "file" : "install.txt",
       "desc" : "install log" },
     { "file" : "remove.txt",
-      "desc" : "remove log" }
+      "desc" : "remove log" },
+    { "file" : "installed_files.txt",
+      "desc" : "install manifest" }
   ];
   
 }])
