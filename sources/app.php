@@ -265,7 +265,7 @@ class YunohostAppMonitor
       $tests_url =
         str_replace( array("{appid}"),
                      array($app->manifest->id),
-                     "https://moonlight.nohost.me/jenkins/job/yunotest/lastBuild/testReport/apps_tests/{appid}/api/json" );
+                     "https://moonlight.nohost.me/jenkins/job/yunotest/lastCompletedBuild/testReport/apps_tests/{appid}/api/json" );
 
       $this->curl_multi->addHandle(
         $this->makeJenkinsRequestHandle($tests_url),
