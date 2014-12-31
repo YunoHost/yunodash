@@ -118,7 +118,7 @@ else
             </tr>
             <tr>
               <td><strong>Maintainer</strong></td>
-              <td>{{ app.json.manifest.developer.name }} <small class="text-muted">({{ app.json.manifest.developer.email }})</td>
+              <td>{{ app.json.manifest.maintainer.name }} <small class="text-muted">({{ app.json.manifest.maintainer.email }})</td>
             </tr>
             <tr>
               <td><strong>Git</strong></td>
