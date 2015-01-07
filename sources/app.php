@@ -20,6 +20,7 @@ class AppInfo
   var $pull_requests = array();
   var $issues = array();
   var $tests = array();
+  var $tests_attachments = array();
   
   public function __construct($appjson, $logged_user)
   {
@@ -90,6 +91,11 @@ class AppInfo
   public function set_tests($tests_array)
   {
     $this->tests = $tests_array;
+  }
+
+  public function set_tests_attachments($tests_attachments_array)
+  {
+    $this->tests_attachments = $tests_attachments_array;
   }
 
 }
@@ -274,6 +280,20 @@ class YunohostAppMonitor
           "app" => $app->manifest->id
           )
         );
+
+      $tests_attachments_url =
+        str_replace( array("{appid}"),
+                     array($app->manifest->id),
+                     "https://moonlight.nohost.me/jenkins/job/yunotest/lastCompletedBuild/testReport/apps_tests/{appid}/" );
+
+      $this->curl_multi->addHandle(
+        $this->makeJenkinsRequestHandle($tests_attachments_url),
+        array($this, "store_tests_attachments"),
+        array(
+          "app" => $app->manifest->id
+          )
+        );
+
     }
     $this->curl_multi->finish();
   }
@@ -326,13 +346,43 @@ class YunohostAppMonitor
 
   public function store_tests($curl_info, $curl_data, $callback_data)
   {
+    $app_info = $this->app_info_arr[ $callback_data["app"] ];
+    $app_info->set_tests(json_decode($curl_data));
+  }
+
+  public function store_tests_attachments($curl_info, $curl_data, $callback_data)
+  {
 /*
     error_log(print_r($curl_info, True));
     error_log(print_r($curl_data, True));
     error_log(print_r($callback_data, True));
 */
+    /*
+     *  scrape the test result page to extract attachments, as they are not
+     *  provided through the API
+     * 
+     *  http://www.bradino.com/php/screen-scraping/
+     */
+     
+    $header_size = $curl_info["header_size"];
+    $body = substr($curl_data, $header_size);
+     
+    $newlines = array("\t","\n","\r","\x20\x20","\0","\x0B");
+    $content = str_replace($newlines, "", html_entity_decode($body));
+    
+    // extract the attachments table
+    $start = strpos($content,'<table class="pane" id="attachments">');
+    $end   = strpos($content,'</table>', $start) + 8;
+    $table = substr($content,$start,$end-$start);
+    
+    //error_log(print_r($table));
+    
+    // extract all <a> elements
+    $attachments = array();
+    preg_match_all('|title=\"(.+)\"|U', $table, $match_results);
+    
     $app_info = $this->app_info_arr[ $callback_data["app"] ];
-    $app_info->set_tests(json_decode($curl_data));
+    $app_info->set_tests_attachments($match_results[1]);
   }
 
   public function get_apps_info()

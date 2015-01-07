@@ -189,9 +189,9 @@ else
                   <a href="{{ app | tests_url }}" target="_blank">Last tests output</a>
                 </div>
                 <table class="table table-condensed table-hover">
-                  <tr ng-repeat="testoutput in testsOutput">
+                  <tr ng-repeat="testoutput in app.tests_attachments">
                      <td style="width:10%;text-align:right"><i class="glyphicon glyphicon-file"></i></td>
-                     <td><a href="{{ testoutput | test_output_url:app }}" target="_blank">{{ testoutput.desc }}</a></td>
+                     <td><a href="{{ testoutput | test_output_url:app }}" target="_blank">{{ testoutput }}</a></td>
                   </tr>
                 </table>
               </div>

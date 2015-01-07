@@ -121,8 +121,8 @@ appDashboard
   }
 })
 .filter('test_output_url', function() {
-  return function(test, app) {
-    return "https://moonlight.nohost.me/jenkins/job/yunotest/lastBuild/testReport/apps_tests/"+app.json.manifest.id+"/attachments/" + test.file;
+  return function(testoutput, app) {
+    return "https://moonlight.nohost.me/jenkins/job/yunotest/lastBuild/testReport/apps_tests/"+app.json.manifest.id+"/attachments/" + testoutput;
   }
 })
 ;
