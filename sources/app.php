@@ -16,6 +16,7 @@ class AppInfo
   var $trunk_rev;
   var $diff_url;
   var $commits_behind = 0;
+  var $diff_commits = array();
   var $is_mine = False;
   var $pull_requests = array();
   var $issues = array();
@@ -43,6 +44,26 @@ class AppInfo
     $this->is_mine = ($this->github_username == $logged_user);
   }
   
+  public function set_diff_commits($diff_commits)
+  {
+    $diff = array();
+    foreach($diff_commits->commits as $commit)
+    {
+      $commit_data = array(
+        "author_login" => $commit->author->login,
+        "author_url" => $commit->author->html_url,
+        "author_gravatar_url" => $commit->author->avatar_url,
+        "message" => $commit->commit->message,
+        "date" => $commit->commit->author->date,
+        "url" => $commit->html_url,
+        "sha" => $commit->sha,
+        "short_sha" => substr($commit->sha,0,7)
+      );
+      $diff[] = $commit_data;
+    }
+    $this->diff_commits = $diff;
+  }
+
   public function set_pull_requests($pr_array)
   {
     foreach($pr_array as $pr)
@@ -324,6 +345,7 @@ class YunohostAppMonitor
   {
     $app_info = $this->app_info_arr[ $callback_data["app"] ];
     $app_info->commits_behind = json_decode($curl_data)->total_commits;
+    $app_info->set_diff_commits(json_decode($curl_data));
   }
   
   public function store_pull_requests($curl_info, $curl_data, $callback_data)

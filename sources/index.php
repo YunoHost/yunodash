@@ -134,6 +134,23 @@ else
             </tr>
         </table>
         
+        <div ng-if="app | not_uptodate">
+          <br>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <a href="{{ app.diff_url }}" target="_blank">Commits behind</a>
+            </div>
+            <table class="table table-condensed table-hover">
+                <tr ng-repeat="commit in app.diff_commits">
+                  <td style="width:5%;text-align:center"><a href="{{ commit.author_url }}" target="_blank"><img width=20 height=20 ng-src="{{ commit.author_gravatar_url }}&s=40" alt="{{ commit.author_login }}"></img></a></td>
+                  <td style="width:10%"><a href="{{ commit.url }}" target="_blank">{{ commit.short_sha }}</a></td>
+                  <td>{{ commit.message }}</td>
+                  <td style="width:10%;text-align:right">{{ commit.date | date:'yyyy-MM-dd' }}</td>
+                </tr>
+            </table>
+          </div>
+        </div>
+
         <div ng-if="app.pull_requests">
           <br>
           <div class="panel panel-default">
@@ -176,7 +193,7 @@ else
                 </div>
                 <table class="table table-condensed table-hover">
                     <tr ng-repeat="test in app.tests.child">
-                      <td style="width:10%;text-align:right"><i class="glyphicon {{ test | test_glyph_class }}" style="{{ test | test_glyph_style }}"></i></td>
+                      <td style="width:7%;text-align:right"><i class="glyphicon {{ test | test_glyph_class }}" style="{{ test | test_glyph_style }}"></i></td>
                       <td><a href="{{ app | single_test_url:test }}" target="_blank">{{ test.name }}</a></td>
                       <td style="width:20%;text-align:right">{{ test.duration | number:2 }} sec</td>
                     </tr>
@@ -190,7 +207,7 @@ else
                 </div>
                 <table class="table table-condensed table-hover">
                   <tr ng-repeat="testoutput in app.tests_attachments">
-                     <td style="width:10%;text-align:right"><i class="glyphicon glyphicon-file"></i></td>
+                     <td style="width:7%;text-align:right"><i class="glyphicon glyphicon-file"></i></td>
                      <td><a href="{{ testoutput | test_output_url:app }}" target="_blank">{{ testoutput }}</a></td>
                   </tr>
                 </table>
@@ -201,7 +218,6 @@ else
         
         <div ng-if="app | not_uptodate">
           <br>
-          <a href="{{ app.diff_url }}" target="_blank" class="btn btn-default">View diff</a>
           <a href="{{ app | validate_url }}" target="_blank" class="btn btn-default">Validate</a>
         </div>
         

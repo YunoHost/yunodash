@@ -17,15 +17,6 @@ appDashboard
   $scope.onlymyapps = false;
   $scope.onlylateapps = false;
   
-  $scope.testsOutput = [
-    { "file" : "install.txt",
-      "desc" : "install log" },
-    { "file" : "remove.txt",
-      "desc" : "remove log" },
-    { "file" : "installed_files.txt",
-      "desc" : "install manifest" }
-  ];
-  
 }])
 .filter('panelclass', function() {
   return function(app) {
@@ -37,6 +28,10 @@ appDashboard
   return function(app) {
     var status_array = new Array();
     
+    if (app.commits_behind > 0)
+    {
+      status_array[status_array.length] = app.commits_behind + " commit" + (app.commits_behind > 1 ? "s" : "") + " behind";
+    }
     if (app.pull_requests.length > 0)
     {
       status_array[status_array.length] = app.pull_requests.length + " pull request" + (app.pull_requests.length > 1 ? "s" : "");
@@ -44,10 +39,6 @@ appDashboard
     if (app.issues.length > 0)
     {
       status_array[status_array.length] = app.issues.length + " issue" + (app.issues.length > 1 ? "s" : "");
-    }
-    if (app.commits_behind > 0)
-    {
-      status_array[status_array.length] = app.commits_behind + " commit" + (app.commits_behind > 1 ? "s" : "") + " behind";
     }
     return status_array.join(", ");
   }
@@ -79,7 +70,8 @@ appDashboard
 })
 .filter('validate_url', function() {
   return function(app) {
-    return "https://app.yunohost.org/validate.php?url="+app.json.git.url+"&branch="+app.json.git.branch+"&rev="+app.trunk_rev+"&email="+app.json.manifest.developer.email;
+    var maintainer_email = app.json.manifest.maintainer ? app.json.manifest.maintainer.email : app.json.manifest.developer.email;
+    return "https://app.yunohost.org/validate.php?url="+app.json.git.url+"&branch="+app.json.git.branch+"&rev="+app.trunk_rev+"&email="+maintainer_email;
   }
 })
 .filter('revision_url', function() {
