@@ -1,5 +1,5 @@
 #!/bin/bash
-app=ynhstatus
+app=yunodash
 
 # Retrieve arguments
 domain=$(sudo yunohost app setting $app domain)

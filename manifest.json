@@ -1,13 +1,12 @@
 {
-    "name": "YunoHost app status",
-    "id": "ynhstatus",
+    "name": "YunoDash",
+    "id": "yunodash",
     "description": {
-        "en": "Example package for Yunohost applications."
+        "en": "Yunohost applications dashboard"
     },
-    "developer": {
-        "name": "John doe",
-        "email": "john.doe@example.com",
-        "url": "http://example.com"
+    "maintainer": {
+        "name": "Julien Malik",
+        "email": "julien.malik@paraiso.me"
     },
     "multi_instance": "false",
     "arguments": {
