@@ -214,9 +214,9 @@ class YunohostAppMonitor
   public function loadAppData()
   {
     $applist = json_decode(
-      file_get_contents( 'https://app.yunohost.org/official.json' )
+      file_get_contents( 'https://yunohost.org/official.json' )
     );
-    
+ 
     foreach($applist as $app)
     {
       $this->app_info_arr[$app->manifest->id] = new AppInfo($app, $this->get_user());
