@@ -288,7 +288,9 @@ class YunohostAppMonitor
           "app" => $app->manifest->id
           )
         );
-
+/*
+ * Jenkins instance is offline...
+ *
       $tests_url =
         str_replace( array("{appid}"),
                      array($app->manifest->id),
@@ -314,7 +316,7 @@ class YunohostAppMonitor
           "app" => $app->manifest->id
           )
         );
-
+ */
     }
     $this->curl_multi->finish();
   }
