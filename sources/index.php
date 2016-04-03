@@ -136,6 +136,10 @@ else
               <td><strong>Latest revision</strong></td>
               <td><a href="{{ app | revision_url:app.trunk_rev }}" target="_blank">{{ app.trunk_rev }}</a></td>
             </tr>
+            <tr ng-if="app.json.git.revision != app.json.git.trunk_rev">
+              <td><strong>Github Compare</strong></td>
+              <td><a href="{{ app.json.git.url }}/compare/{{ app.json.git.revision }}...{{ app.json.git.trunk_rev }}" target="_blank">{{ app.json.git.url }}/compare/{{ app.json.git.revision }}...{{ app.json.git.trunk_rev }}</a></td>
+            </tr>
         </table>
         
         <div ng-if="app | not_uptodate">
