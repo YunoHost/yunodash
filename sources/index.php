@@ -125,6 +125,10 @@ else
               <td><a href="{{ app.json.git.url }}" target="_blank">{{ app.json.git.url }}</a></td>
             </tr>
             <tr>
+              <td><strong>Manual update</strong></td>
+              <td>python add_or_update.py official.json {{ app.json.git.url }}</td>
+            </tr>
+            <tr>
               <td><strong>Published revision</strong></td>
               <td><a href="{{ app | revision_url:app.json.git.revision }}" target="_blank">{{ app.json.git.revision }}</a></td>
             </tr>
